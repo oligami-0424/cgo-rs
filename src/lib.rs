@@ -2,11 +2,11 @@
 //! excellent [cc](https://docs.rs/cc/latest/cc) crate.
 //!
 //! It is intended that you use this library from within your `build.rs` file by
-//! adding the cgo crate to your [`build-dependencies`](https://doc.rust-lang.org/cargo/reference/specifying-dependencies.html#build-dependencies):
+//! adding the cgo_oligami crate to your [`build-dependencies`](https://doc.rust-lang.org/cargo/reference/specifying-dependencies.html#build-dependencies):
 //!
 //! ```toml
 //! [build-dependencies]
-//! cgo = "*"
+//! cgo_oligami = "*"
 //! ```
 //!
 //! # Examples
@@ -16,7 +16,7 @@
 //!
 //! ```no_run
 //! fn main() {
-//!     cgo::Build::new()
+//!     cgo_oligami::Build::new()
 //!         .package("pkg/example/main.go")
 //!         .build("example");
 //! }
@@ -185,7 +185,7 @@ impl Build {
         cmd.env("CGO_ENABLED", "1")
             .env("GOOS", goos)
             .env("GOARCH", goarch)
-            .env("CC", get_cc())
+            // .env("CC", get_cc())
             .env("CXX", get_cxx())
             .arg("build");
         if let Some(change_dir) = &self.change_dir {
@@ -223,7 +223,12 @@ impl Build {
                 BuildMode::CArchive => "static",
                 BuildMode::CShared => "dylib",
             };
-            println!("cargo:rustc-link-lib={}={}", link_kind, output);
+            if (std::env::consts::OS == "windows") && (link_kind == "static") {
+                println!("cargo:rustc-link-lib={}=lib{}", link_kind, output);
+            } else {
+                println!("cargo:rustc-link-lib={}={}", link_kind, output);
+            }
+
             println!("cargo:rustc-link-search=native={}", out_dir.display());
         }
 
@@ -370,9 +375,9 @@ impl std::fmt::Display for Error {
     }
 }
 
-fn get_cc() -> PathBuf {
-    cc::Build::new().get_compiler().path().to_path_buf()
-}
+// fn get_cc() -> PathBuf {
+//     cc::Build::new().get_compiler().path().to_path_buf()
+// }
 
 fn get_cxx() -> PathBuf {
     cc::Build::new()

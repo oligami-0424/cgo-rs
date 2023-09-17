@@ -1,5 +1,5 @@
 fn main() {
-    cgo::Build::new()
+    cgo_oligami::Build::new()
         .trimpath(true)
         .ldflags("-s -w")
         .change_dir("./tests/example")

@@ -9,4 +9,4 @@ doctest = false
 test = false
 
 [build-dependencies]
-cgo = { path = ".." }
+cgo_oligami = { path = ".." }
