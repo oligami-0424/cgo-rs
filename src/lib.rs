@@ -223,11 +223,11 @@ impl Build {
                 BuildMode::CArchive => "static",
                 BuildMode::CShared => "dylib",
             };
-            if (std::env::consts::OS == "windows") && (link_kind == "static") {
-                println!("cargo:rustc-link-lib={}=lib{}", link_kind, output);
-            } else {
-                println!("cargo:rustc-link-lib={}={}", link_kind, output);
-            }
+            #[cfg(target_os = "windows")]
+            println!("cargo:rustc-link-lib={}=lib{}", link_kind, output);
+
+            #[cfg(not(target_os = "windows"))]
+            println!("cargo:rustc-link-lib={}={}", link_kind, output);
 
             println!("cargo:rustc-link-search=native={}", out_dir.display());
         }
