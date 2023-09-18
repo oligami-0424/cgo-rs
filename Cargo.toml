@@ -1,6 +1,6 @@
 [package]
 name = "cgo_oligami"
-version = "0.3.2"
+version = "0.3.3"
 edition = "2021"
 authors = ["Ryan Fowler", "oligami"]
 description = "A library for build scripts to compile custom Go code"
