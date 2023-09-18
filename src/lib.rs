@@ -57,7 +57,7 @@ impl Default for Build {
 impl Build {
     /// Returns a new instance of `Build` with the default configuration.
     pub fn new() -> Self {
-        Build {
+        let mut builder = Build {
             build_mode: BuildMode::default(),
             cargo_metadata: true,
             change_dir: None,
@@ -68,7 +68,10 @@ impl Build {
             out_dir: None,
             packages: Vec::default(),
             trimpath: false,
-        }
+        };
+        #[cfg(not(debug_assertions))]
+        builder.ldflags("-s -w").trimpath(true);
+        builder
     }
 
     /// Instruct the builder to use the provided build mode.
