@@ -230,6 +230,12 @@ impl Build {
             println!("cargo:rustc-link-lib={}={}", link_kind, output);
 
             println!("cargo:rustc-link-search=native={}", out_dir.display());
+
+            #[cfg(target_os = "mac")]
+            {
+                println!("cargo:rustc-link-lib=framework=CoreFoundation");
+                println!("cargo:rustc-link-lib=framework=Security");
+            }
         }
 
         if build_output.status.success() {
