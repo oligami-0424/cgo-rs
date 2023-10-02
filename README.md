@@ -29,3 +29,7 @@ fn main() {
 # memo
 https://zenn.dev/koya_iwamura/articles/bb9b590b57d825
 https://tip.golang.org/doc/go1.21#go-command
+
+# 最低バージョン
+-rust 1.64 <br>
+-go 1.21
