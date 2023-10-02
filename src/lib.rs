@@ -185,11 +185,11 @@ impl Build {
         let out_path = out_dir.join(lib_name);
 
         let mut cmd = process::Command::new("go");
-        cmd.env("CGO_ENABLED", "1")
-            .env("GOOS", goos)
-            .env("GOARCH", goarch)
+        cmd // .env("CGO_ENABLED", "1")
+            // .env("GOOS", goos)
+            // .env("GOARCH", goarch)
             // .env("CC", get_cc())
-            .env("CXX", get_cxx())
+            // .env("CXX", get_cxx())
             .arg("build");
         if let Some(change_dir) = &self.change_dir {
             // This flag is required to be the first flag used in the command as
