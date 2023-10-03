@@ -32,4 +32,4 @@ https://tip.golang.org/doc/go1.21#go-command
 
 # 最低バージョン
 -rust 1.64 <br>
--go 1.21
+-go 1.21.1
