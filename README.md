@@ -26,10 +26,19 @@ fn main() {
 }
 ```
 
+# windows cannot support
+Golang is not support llvm on windows so Rust cannot link Golang staticlib on windows
+https://github.com/golang/go/issues/17014
+If you use, dynamiclib
+https://doc.rust-lang.org/reference/items/external-blocks.html#the-link-attribute
+
+# support
+mac and linux without alpine
+
 # memo
 https://zenn.dev/koya_iwamura/articles/bb9b590b57d825
 https://tip.golang.org/doc/go1.21#go-command
 
-# 最低バージョン
--rust 1.64 <br>
--go 1.21.1
+# Minimum Version
+- rust 1.64 <br>
+- go 1.21.1

@@ -211,6 +211,8 @@ impl Build {
             cmd.arg(package);
         }
 
+        cmd.env("CGO_ENABLED", "1");
+
         let build_output = match cmd.output() {
             Ok(build_output) => build_output,
             Err(err) => {
@@ -227,7 +229,20 @@ impl Build {
                 BuildMode::CShared => "dylib",
             };
             #[cfg(target_os = "windows")]
-            println!("cargo:rustc-link-lib={}=lib{}", link_kind, output);
+            {
+                match self.build_mode {
+                    BuildMode::CArchive => {
+                        println!("cargo:rustc-link-lib={}=lib{}", link_kind, output)
+                    }
+                    BuildMode::CShared => {
+                        // println!("cargo:rustc-cfg=link_dynamic");
+                        // // println!("cargo:rustc-link-lib={}=lib{}.dll", link_kind, output)
+                        // println!("cargo:rustc-link-lib=dylib=libffi_go_print.dll")
+
+                        // extern "C" {}
+                    }
+                };
+            }
 
             #[cfg(not(target_os = "windows"))]
             println!("cargo:rustc-link-lib={}={}", link_kind, output);
@@ -238,6 +253,20 @@ impl Build {
             {
                 println!("cargo:rustc-link-lib=framework=CoreFoundation");
                 println!("cargo:rustc-link-lib=framework=Security");
+
+                // #[cfg_attr(
+                //     any(target_os = "macos", target_os = "ios", target_os = "tvos"),
+                //     link(name = "CoreFoundation", kind = "framework")
+                // )]
+                // #[cfg_attr(
+                //     any(target_os = "macos", target_os = "ios", target_os = "tvos"),
+                //     link(name = "Security", kind = "framework")
+                // )]
+                // #[cfg_attr(
+                //     any(target_os = "macos", target_os = "ios", target_os = "tvos"),
+                //     link(name = "resolv")
+                // )]
+                // extern "C" {}
             }
         }
 
