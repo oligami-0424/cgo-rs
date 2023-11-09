@@ -10,7 +10,7 @@ adding the cgo crate to your [`build-dependencies`](https://doc.rust-lang.org/ca
 
 ```toml
 [build-dependencies]
-cgo = "*"
+cgo_oligami = "*"
 ```
 
 # Examples
